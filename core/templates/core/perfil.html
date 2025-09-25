@@ -1,0 +1,93 @@
+{% extends "accounts/base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="h4 mb-4">Mi Perfil</h1>
+        
+        {% if error %}
+            <div class="alert alert-warning">
+                <strong>⚠️ Atención:</strong> {{ error }}
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        👤 Información Personal
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label text-muted"><strong>Usuario:</strong></label>
+                                <p class="fw-bold">{{ user.username }}</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label text-muted"><strong>Nombre completo:</strong></label>
+                                <p>
+                                    {% if user.first_name or user.last_name %}
+                                        {{ user.first_name }} {{ user.last_name }}
+                                    {% else %}
+                                        <span class="text-muted">No especificado</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label text-muted"><strong>Email:</strong></label>
+                                <p>
+                                    {% if user.email %}
+                                        {{ user.email }}
+                                    {% else %}
+                                        <span class="text-muted">No especificado</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label text-muted"><strong>Organización:</strong></label>
+                                <p class="fw-bold">
+                                    🏢 {{ user_profile.organization.name }}
+                                </p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label text-muted"><strong>Rol:</strong></label>
+                                <p>
+                                    {% if user_profile.role %}
+                                        <span class="badge bg-secondary">{{ user_profile.role }}</span>
+                                    {% else %}
+                                        <span class="text-muted">Sin rol asignado</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label text-muted"><strong>Estado:</strong></label>
+                                <p>
+                                    {% if user.is_active %}
+                                        <span class="badge bg-success">Activo</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Inactivo</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="text-end">
+                        <small class="text-muted">
+                            📅 Miembro desde: {{ user.date_joined|date:"d/m/Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

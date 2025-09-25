@@ -1,0 +1,85 @@
+{% extends "accounts/base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="h4 mb-4">Usuarios de mi Organización</h1>
+        
+        {% if error %}
+            <div class="alert alert-warning">
+                <strong>⚠️ Atención:</strong> {{ error }}
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        🏢 {{ organizacion.name }}
+                    </h5>
+                    <span class="badge bg-primary">{{ usuarios.count }} usuario{{ usuarios.count|pluralize }}</span>
+                </div>
+                <div class="card-body">
+                    {% if usuarios %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Nombre completo</th>
+                                        <th>Email</th>
+                                        <th>Rol</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for usuario in usuarios %}
+                                    <tr {% if usuario == request.user %}class="table-info"{% endif %}>
+                                        <td>
+                                            <strong>{{ usuario.username }}</strong>
+                                            {% if usuario == request.user %}
+                                                <span class="badge bg-success ms-1">Tú</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if usuario.first_name or usuario.last_name %}
+                                                {{ usuario.first_name }} {{ usuario.last_name }}
+                                            {% else %}
+                                                <span class="text-muted">No especificado</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if usuario.email %}
+                                                {{ usuario.email }}
+                                            {% else %}
+                                                <span class="text-muted">No especificado</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if usuario.userprofile.role %}
+                                                <span class="badge bg-secondary">{{ usuario.userprofile.role }}</span>
+                                            {% else %}
+                                                <span class="text-muted">Sin rol</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if usuario.is_active %}
+                                                <span class="badge bg-success">Activo</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Inactivo</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <h3>👥</h3>
+                            <p class="text-muted">No hay usuarios en esta organización.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
