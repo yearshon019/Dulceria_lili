@@ -10,6 +10,7 @@ class UsuarioAdmin(admin.ModelAdmin):
     list_filter = ['rol', 'created_at']
     search_fields = ['nombre', 'email']
     ordering = ['-created_at']
+    date_hierarchy = 'created_at'
 
 @admin.register(Proveedor)
 class ProveedorAdmin(admin.ModelAdmin):
@@ -21,7 +22,7 @@ class ProveedorAdmin(admin.ModelAdmin):
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
     list_display = ['id_producto', 'nombre', 'unidad', 'precio_base', 'cantidad_producto', 'id_receta']
-    list_filter = ['unidad', 'created_at']
+    list_filter = ['unidad', 'id_receta', 'created_at']
     search_fields = ['nombre', 'descripcion']
     ordering = ['nombre']
 
@@ -34,16 +35,18 @@ class BodegaAdmin(admin.ModelAdmin):
 @admin.register(Lote)
 class LoteAdmin(admin.ModelAdmin):
     list_display = ['id_lote', 'id_producto', 'fecha_vencimiento', 'cantidad_inicial', 'cantidad_actual', 'created_at']
-    list_filter = ['fecha_vencimiento', 'created_at']
+    list_filter = ['fecha_vencimiento', 'id_producto', 'created_at']
     search_fields = ['id_producto__nombre']
     ordering = ['-fecha_vencimiento']
+    date_hierarchy = 'fecha_vencimiento'
 
 @admin.register(Inventario)
 class InventarioAdmin(admin.ModelAdmin):
     list_display = ['id_inventario', 'id_producto', 'id_bodega', 'id_lote', 'id_usuario', 'updated_at_TIMESTAMP']
-    list_filter = ['id_bodega', 'updated_at_TIMESTAMP']
+    list_filter = ['id_bodega', 'id_producto', 'updated_at_TIMESTAMP']
     search_fields = ['id_producto__nombre', 'id_bodega__nombre']
     ordering = ['-updated_at_TIMESTAMP']
+    date_hierarchy = 'updated_at_TIMESTAMP'
 
 @admin.register(Costo)
 class CostoAdmin(admin.ModelAdmin):
@@ -51,6 +54,7 @@ class CostoAdmin(admin.ModelAdmin):
     list_filter = ['tipo', 'fecha', 'created_at']
     search_fields = ['id_producto__nombre', 'tipo']
     ordering = ['-fecha']
+    date_hierarchy = 'fecha'
 
 @admin.register(OrdenCompra)
 class OrdenCompraAdmin(admin.ModelAdmin):
@@ -58,6 +62,7 @@ class OrdenCompraAdmin(admin.ModelAdmin):
     list_filter = ['estado', 'fecha', 'created_at']
     search_fields = ['id_proveedor__nombre']
     ordering = ['-fecha']
+    date_hierarchy = 'fecha'
 
 class DetalleOCInline(admin.TabularInline):
     model = DetalleOC
@@ -76,6 +81,7 @@ class PedidoAdmin(admin.ModelAdmin):
     list_filter = ['estado', 'fecha', 'created_at']
     search_fields = ['id_pedido', 'id_cliente']
     ordering = ['-fecha']
+    date_hierarchy = 'fecha'
 
 class DetallePedidoInline(admin.TabularInline):
     model = DetallePedido
@@ -94,9 +100,10 @@ class OrdenProduccionAdmin(admin.ModelAdmin):
     list_filter = ['estado', 'fecha_inicio', 'fecha_fin']
     search_fields = ['id_producto__nombre']
     ordering = ['-fecha_inicio']
+    date_hierarchy = 'fecha_inicio'
 
-# Opcional: Mejorar el admin de OrdenCompra con inline de detalles
+# Mejorar el admin de OrdenCompra con inline de detalles
 OrdenCompraAdmin.inlines = [DetalleOCInline]
 
-# Opcional: Mejorar el admin de Pedido con inline de detalles  
+# Mejorar el admin de Pedido con inline de detalles  
 PedidoAdmin.inlines = [DetallePedidoInline]
