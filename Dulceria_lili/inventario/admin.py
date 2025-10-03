@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .forms import InventarioForm
 
 from .models import (
     Proveedor, Producto, Bodega, Usuario, Lote, Inventario,
