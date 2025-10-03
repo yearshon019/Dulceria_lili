@@ -1,8 +1,12 @@
 from django.contrib import admin
+from .forms import InventarioForm
+# ------------------------------------------------------------ 
 from .models import (
     Proveedor, Producto, Bodega, Usuario, Lote, Inventario,
     Costo, OrdenCompra, DetalleOC, Pedido, DetallePedido, OrdenProduccion
 )
+
+
 
 @admin.register(Usuario)
 class UsuarioAdmin(admin.ModelAdmin):
@@ -94,6 +98,14 @@ class OrdenProduccionAdmin(admin.ModelAdmin):
     list_filter = ['estado', 'fecha_inicio', 'fecha_fin']
     search_fields = ['id_producto__nombre']
     ordering = ['-fecha_inicio']
+
+@admin.register(InventarioAdmin)
+class InventarioAdmin(admin.ModelAdmin):
+    list_display = ['id_inventario', 'id_producto', 'id_bodega', 'id_lote', 'id_usuario', 'updated_at_TIMESTAMP']
+    list_filter = ['id_bodega', 'updated_at_TIMESTAMP']
+    search_fields = ['id_producto__nombre', 'id_bodega__nombre']
+    ordering = ['-updated_at_TIMESTAMP']
+    form = InventarioForm
 
 # Opcional: Mejorar el admin de OrdenCompra con inline de detalles
 OrdenCompraAdmin.inlines = [DetalleOCInline]
