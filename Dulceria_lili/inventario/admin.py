@@ -10,7 +10,6 @@ class UsuarioAdmin(admin.ModelAdmin):
     list_filter = ['rol', 'created_at']
     search_fields = ['nombre', 'email']
     ordering = ['-created_at']
-    date_hierarchy = 'created_at'
 
 @admin.register(Proveedor)
 class ProveedorAdmin(admin.ModelAdmin):
