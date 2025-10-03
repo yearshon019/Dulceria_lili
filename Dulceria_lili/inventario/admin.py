@@ -1,8 +1,12 @@
 from django.contrib import admin
+from .forms import InventarioForm
+
 from .models import (
     Proveedor, Producto, Bodega, Usuario, Lote, Inventario,
     Costo, OrdenCompra, DetalleOC, Pedido, DetallePedido, OrdenProduccion
 )
+
+
 
 @admin.register(Usuario)
 class UsuarioAdmin(admin.ModelAdmin):
@@ -101,7 +105,6 @@ class OrdenProduccionAdmin(admin.ModelAdmin):
     ordering = ['-fecha_inicio']
     date_hierarchy = 'fecha_inicio'
 
-# Mejorar el admin de OrdenCompra con inline de detalles
 OrdenCompraAdmin.inlines = [DetalleOCInline]
 
 # Mejorar el admin de Pedido con inline de detalles  
