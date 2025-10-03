@@ -2,7 +2,6 @@ from django import forms
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from .models import Inventario
-from .admin import InventarioAdmin
 
 class InventarioForm(forms.ModelForm):
     class Meta:
